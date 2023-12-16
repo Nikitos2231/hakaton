@@ -1,0 +1,1163 @@
+{
+	"info": {
+		"_postman_id": "376a11fc-0406-4b07-9668-354c20fc9d21",
+		"name": "Hakaton",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21183263"
+	},
+	"item": [
+		{
+			"name": "Auth controller",
+			"item": [
+				{
+					"name": "Register (admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"role\": \"MANAGER\",\n    \"login\": \"silant2\",\n    \"password\": \"123\",\n    \"company\": \"ООО Силант\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:16000/api/v1/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Authorization (all)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var responseBody = pm.response.text();",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    var token = jsonData.resultData.accessToken;",
+									"    var refreshToken = jsonData.resultData.refreshToken;",
+									"",
+									"    pm.globals.set('authToken', token);",
+									"    pm.globals.set('refreshToken', refreshToken);",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"manager\",\n    \"password\": \"manager\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://62.76.228.98:16000/api/v1/auth/authenticate",
+							"protocol": "http",
+							"host": [
+								"62",
+								"76",
+								"228",
+								"98"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh token (all)",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refreshToken\": \"{{refreshToken}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:16000/api/v1/auth/refresh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Log out (all)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:16000/auth/v1/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"auth",
+								"v1",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CarController",
+			"item": [
+				{
+					"name": "Get cars (client, manager, org))",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"filters\": {\n        \"serialNumber\": \"00\",\n        \"factoryDateShipment\": \"2022-01-14\"\n        // \"engineModel\": \"33\"\n    },\n    \"sorting\": {\n        // \"serialNumber\": \"asc\",\n        // \"engineModel\": \"desc\"\n    },\n    \"page\": {\n        // \"pageNumber\": 1,\n        // \"amountOfElements\": 1\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:16000/api/v1/cars",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"cars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get cars by serialNumber part",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:16000/api/v1/cars/list-by-part/8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"cars",
+								"list-by-part",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get cars by serialNumber part anonymize",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:16000/api/v1/cars/list-by-part-anonymize/00",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"cars",
+								"list-by-part-anonymize",
+								"00"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get car by serialNumber",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:16000/api/v1/cars/serial-number/0027",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"cars",
+								"serial-number",
+								"0027"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get car by serialNumber anonimyze",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:16000/api/v1/cars/serial-number-anonymize/0003",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"cars",
+								"serial-number-anonymize",
+								"0003"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit car",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"techModel\": \"ПД1,5\",\n  \"engineModel\": \"Kubota D1803\",\n  \"engineSerialNumber\": \"7ML103533\",\n  \"transModel\": \"10VA-00105\",\n  \"transSerialNumber\": \"21D0108251\",\n  \"driveAxleModel\": \"20VA-00101\",\n  \"driveAxleSerialNumber\": \"21D0107997\",\n  \"controlBridgeModel\": \"VS20-00001\",\n  \"controlBridgeSerialNumber\": \"21D0093265\",\n  \"factoryDateShipment\": \"2022-11-11\",\n  \"client\": null,\n  \"consumer\": null,\n  \"deliveryAddress\": null,\n  \"equipment\": null,\n  \"company\": null\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:16000/api/v1/cars/0003",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"cars",
+								"0003"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save car",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"serialNumber\": \"1111\",\n  \"techModel\": \"ПД1,5\",\n  \"engineModel\": \"Kubota D1803\",\n  \"engineSerialNumber\": \"7ML1035\",\n  \"transModel\": \"10VA-00105\",\n  \"transSerialNumber\": \"21D0108251\",\n  \"driveAxleModel\": \"20VA-00101\",\n  \"driveAxleSerialNumber\": \"21D0107997\",\n  \"controlBridgeModel\": \"VS20-00001\",\n  \"controlBridgeSerialNumber\": \"21D0093265\",\n  \"factoryDateShipment\": \"2022-11-11\",\n  \"client\": null,\n  \"consumer\": \"\",\n  \"deliveryAddress\": \"\",\n  \"equipment\": \"\",\n  \"company\": null\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:16000/api/v1/cars/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"cars",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get directory",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:16000/api/v1/cars/directory/Kubota D1803",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"cars",
+								"directory",
+								"Kubota D1803"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete car",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:16000/api/v1/cars/1111",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"cars",
+								"1111"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Company controller",
+			"item": [
+				{
+					"name": "Get companies",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:16000/api/v1/companies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"companies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get company names by name part",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:16000/api/v1/companies/by-part/О",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"companies",
+								"by-part",
+								"О"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get company by name",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:16000/api/v1/companies/ООО Силант",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"companies",
+								"ООО Силант"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add company",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"ООО Силант 3\",\n    \"description\": \"3213\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:16000/api/v1/companies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"companies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit company",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"ООО Силант 4\",\n    \"description\": \"3213wettewer4\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:16000/api/v1/companies/ООО Силант 3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"companies",
+								"ООО Силант 3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete company",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:16000/api/v1/companies/ООО Силант 5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"companies",
+								"ООО Силант 5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DirectoryController",
+			"item": [
+				{
+					"name": "Get values by type",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"types\": [\n        \"ENGINE_MODEL\",\n        \"TRANS_MODEL\",\n        \"CONTROL_BRIDGE_MODEL\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:16000/api/v1/directories/values",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"directories",
+								"values"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save directory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"fer3\",\n    \"description\": \"123\",\n    \"type\": \"ENGINE_MODEL\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:16000/api/v1/directories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"directories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit directory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Kubota D18034\",\n    \"description\": \"123123\",\n    \"type\": \"ENGINE_MODEL\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:16000/api/v1/directories/fer3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"directories",
+								"fer3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TechInspectionController",
+			"item": [
+				{
+					"name": "Get inpections",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"filters\": {\n        // \"carId\": \"0003\"\n        // \"engineModel\": \"33\"\n    },\n    \"sorting\": {\n        // \"serialNumber\": \"asc\",\n        // \"engineModel\": \"desc\"\n    },\n    \"page\": {\n        // \"pageNumber\": 1,\n        \"amountOfElements\": 30\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:16000/api/v1/inspections",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"inspections"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get inpection",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"filters\": {\n        // \"serialNumber\": \"3\",\n        // \"engineModel\": \"33\"\n    },\n    \"sorting\": {\n        // \"serialNumber\": \"asc\",\n        // \"engineModel\": \"desc\"\n    },\n    \"page\": {\n        // \"pageNumber\": 1,\n        \"amountOfElements\": 30\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:16000/api/v1/inspections/8ccd5c32-9979-11ee-b9d1-0242ac120002",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"inspections",
+								"8ccd5c32-9979-11ee-b9d1-0242ac120002"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save inspection",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"carId\": \"0003\",\n  \"type\": \"ТО-0 (50 м/час)\",\n  \"maintenanceDate\": \"2023-12-15\",\n  \"operating\": 10,\n  \"orderNumber\": \"ORD12345\",\n  \"orderNumberDate\": \"2023-12-14\",\n  \"company\": \"ООО Промышленная техника\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:16000/api/v1/inspections/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"inspections",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit inspection",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"carId\": \"0016\",\n  \"type\": \"ТО-0 (50 м/час)\",\n  \"maintenanceDate\": \"2023-12-15\",\n  \"operating\": 1022,\n  \"orderNumber\": \"ORD1234533\",\n  \"orderNumberDate\": \"2023-12-14\",\n  \"company\": \"ООО Промышленная техника\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:16000/api/v1/inspections/a029cebf-5bbc-4ef1-81d9-4df52dfee00e",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"inspections",
+								"a029cebf-5bbc-4ef1-81d9-4df52dfee00e"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CompaintsController",
+			"item": [
+				{
+					"name": "Get all complaints",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"filters\": {\n        \"recoveryMethod\": \"Р\"\n    },\n    \"sorting\": {\n        // \"serialNumber\": \"asc\",\n        // \"engineModel\": \"desc\"\n    },\n    \"page\": {\n        \"pageNumber\": 0,\n        \"amountOfElements\": 4\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:16000/api/v1/complaints",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"complaints"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:16000/api/v1/complaints/6d1f4124-997a-11ee-b9d1-0242ac120002",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"complaints",
+								"6d1f4124-997a-11ee-b9d1-0242ac120002"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save complaints",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"carId\": \"0017\",\n  \"rejectDate\": \"2023-12-15\",\n  \"operating\": 10,\n  \"rejectNode\": \"Двигатель\",\n  \"rejectDescription\": \"Description of the rejection\",\n  \"recoveryMethod\": \"Ремонт узла\",\n  \"sparePartsUsed\": \"колесо\",\n  \"recoveryDate\": \"2023-12-18\",\n  \"equipmentDowntime\": 5,\n  \"company\": \"ООО Силант\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:16000/api/v1/complaints/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"complaints",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit complaints",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"carId\": \"0017\",\n  \"rejectDate\": \"2023-12-15\",\n  \"operating\": 10,\n  \"rejectNode\": \"Двигатель\",\n  \"rejectDescription\": \"Description of the rejection\",\n  \"recoveryMethod\": \"Ремонт узла\",\n  \"sparePartsUsed\": \"колесо\",\n  \"recoveryDate\": \"2023-12-18\",\n  \"equipmentDowntime\": 5,\n  \"company\": \"ООО Силант\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:16000/api/v1/complaints/98f3cccf-72e5-498a-b96d-9ce83792f657",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "16000",
+							"path": [
+								"api",
+								"v1",
+								"complaints",
+								"98f3cccf-72e5-498a-b96d-9ce83792f657"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
