@@ -1,0 +1,7 @@
+id;login;company;password;role
+623a0c07-b54b-49d7-8129-0500aaf47760;admin;null;$2a$12$FgLyyO91Omzo7TESgfxY0Odb.UuxzNPTmv6r4OSrbK/v7mcRLXTty;ADMIN
+623a0c07-b54b-49d7-8129-0500aaf47761;manager;null;$2a$12$fRkX/JaUQOJEIdZ23UHch.iBmYa9xXjZf1kozoA5oyJhcquvZKc6q;MANAGER
+623a0c07-b54b-49d7-8129-0500aaf47762;silant_com;ООО Силант;$2a$12$XjVFjJuL0sSpxJzuybBooOa7S0MIoLBlvKLBcP4Ht3wFReVC3H/.S;SERVICE_ORGANISATION
+623a0c07-b54b-49d7-8129-0500aaf47763;silant;ООО Силант;$2a$12$pJ.keDlh1a2jYR5exxgCeuNqTjExnZ3pziBCD8VqQYZenl4A.9.qq;CLIENT
+623a0c07-b54b-49d7-8129-0500aaf47764;zander;АО "Зандер";$2a$12$7P/m9lRlpnsbMKKGLpqUqeqJTaYueFRYTUM91PjG1W0IoWntOdXSG;CLIENT
+623a0c07-b54b-49d7-8129-0500aaf47765;zander_com;АО "Зандер";$2a$12$g738DRh/QBRLKqnW4bwOC.gka0xteZ.hIHxh4h6J9wwiwfRbD4gZW;SERVICE_ORGANISATION

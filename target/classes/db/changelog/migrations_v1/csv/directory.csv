@@ -1,0 +1,36 @@
+name;type;description
+Kubota V3300;ENGINE_MODEL;Кубота (Япония)
+Kubota D1803;ENGINE_MODEL;Кубота (Япония)
+Nissan K21;ENGINE_MODEL;Ниссан (Япония)
+MMZ-4D;ENGINE_MODEL;ММЗ (Беларусь)
+ММЗ Д-243;ENGINE_MODEL;ММЗ (Беларусь)
+10VB-00106;TRANS_MODEL;MS (Корея)
+10VA-00105;TRANS_MODEL;MS (Корея)
+HF30-VP010;TRANS_MODEL;Hyundai (Корея)
+HF50-VP020;TRANS_MODEL;Hyundai (Корея)
+20VB-00102;CONTROL_BRIDGE_MODEL;MS (Корея)
+20VA-00101;CONTROL_BRIDGE_MODEL;MS (Корея)
+HA30-02020;CONTROL_BRIDGE_MODEL;Hyundai (Корея)
+HA50-VP010;CONTROL_BRIDGE_MODEL;Hyundai (Корея)
+VS30-00001;DRIVE_AXEL_MODEL;MS (Корея)
+VS20-00001;DRIVE_AXEL_MODEL;MS (Корея)
+B350655A;DRIVE_AXEL_MODEL;Hyundai (Корея)
+ПД3,0;TECH_MODEL;null
+ПГ1,5;TECH_MODEL;null
+ПД1,5;TECH_MODEL;null
+ПД2,0;TECH_MODEL;null
+ПД2,5;TECH_MODEL;null
+ПД5,0;TECH_MODEL;null
+ТО-0 (50 м/час);TECH_INSPECTION_TYPE;null
+ТО-1 (200 м/час);TECH_INSPECTION_TYPE;null
+ТО-2 (400 м/час);TECH_INSPECTION_TYPE;null
+ТО-4 (1000м/час);TECH_INSPECTION_TYPE;null
+ТО-5 (2000м/час);TECH_INSPECTION_TYPE;null
+Двигатель;REJECT_NODE;null
+Трансмиссия;REJECT_NODE;null
+Ведущий мост;REJECT_NODE;null
+Управляемый мост;REJECT_NODE;null
+Подъёмное устройство;REJECT_NODE;null
+Гидросистема;REJECT_NODE;null
+Ремонт узла;RECOVERY_METHOD;null
+Замена узла;RECOVERY_METHOD;null

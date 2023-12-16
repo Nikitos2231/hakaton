@@ -1,0 +1,40 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5439/jwt_security
+    username: username
+    password: password
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  data:
+    redis:
+      host: redis
+      port: 6379
+      repositories:
+        enabled: false
+
+application:
+  security:
+    jwt:
+      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      expiration: 180000 # a 3 minutes
+      refresh-token:
+        expiration: 604800000 # 7 days
+    allow-paths: /api/v1/auth/**,/api/v1/cars/list-by-part-anonymize/**,/api/v1/cars/serial-number-anonymize/**,/api/v1/cars/directory/**
+
+redis:
+  cache-name: auth-tokens
+  cache-live: 3
+
+server:
+  port: 16000
+

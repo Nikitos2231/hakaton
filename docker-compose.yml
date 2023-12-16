@@ -1,0 +1,57 @@
+version: "3"
+
+services:
+  postgres:
+    container_name: postgres-sql
+    image: postgres
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: jwt_security
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5439:5432"
+    restart: unless-stopped
+    networks:
+      - springboot-mysql-net
+
+  redis:
+    container_name: redis
+    hostname: redis
+    image: 'redis:6.2.11'
+    ports:
+      - "6390:6379"
+    networks:
+      - redis-network
+
+  web-app:
+    container_name: hakaton
+    build:
+      context: .
+      dockerfile: dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/jwt_security
+      SPRING_DATASOURCE_USERNAME: username
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "16000:16000"
+    networks:
+      - springboot-mysql-net
+      - redis-network
+    links:
+      - "redis"
+    restart: on-failure
+
+volumes:
+  postgres:
+
+networks:
+  springboot-mysql-net:
+  redis-network:

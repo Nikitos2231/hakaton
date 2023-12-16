@@ -1,0 +1,42 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="2023-12-12-02-01" author="nporshennikov" runOnChange="true">
+        <loadUpdateData relativeToChangelogFile="true" file="csv/company.csv"
+                        primaryKey="name"
+                        separator=";"
+                        tableName="company"/>
+    </changeSet>
+    <changeSet id="2023-12-12-02-02" author="nporshennikov" runOnChange="true">
+        <loadUpdateData relativeToChangelogFile="true" file="csv/directory.csv"
+                        primaryKey="name"
+                        separator=";"
+                        tableName="directory"/>
+    </changeSet>
+    <changeSet id="2023-12-12-02-03" author="nporshennikov" runOnChange="true">
+        <loadUpdateData relativeToChangelogFile="true" file="csv/car.csv"
+                        primaryKey="serial_number"
+                        separator=";"
+                        tableName="car"/>
+    </changeSet>
+    <changeSet id="2023-12-12-02-04" author="nporshennikov" runOnChange="true">
+        <loadUpdateData relativeToChangelogFile="true" file="csv/tech_inspection.csv"
+                        primaryKey="id"
+                        separator=";"
+                        tableName="tech_inspection"/>
+    </changeSet>
+    <changeSet id="2023-12-12-02-05" author="nporshennikov" runOnChange="true">
+        <loadUpdateData relativeToChangelogFile="true" file="csv/complaints.csv"
+                        primaryKey="id"
+                        separator=";"
+                        tableName="complaints"/>
+    </changeSet>
+    <changeSet id="2023-12-12-02-06" author="nporshennikov" runOnChange="true">
+        <loadUpdateData relativeToChangelogFile="true" file="csv/user.csv"
+                        primaryKey="id"
+                        separator=";"
+                        tableName="_user"/>
+    </changeSet>
+</databaseChangeLog>

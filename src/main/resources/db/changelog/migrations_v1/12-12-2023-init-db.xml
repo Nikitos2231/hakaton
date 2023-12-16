@@ -1,0 +1,339 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="nporshennikov" id="12-12-2023-01">
+        <createTable tableName="directory">
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="type" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(5000)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="nporshennikov" id="12-12-2023-02">
+        <createTable tableName="company">
+            <column name="name" type="VARCHAR(300)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="description" type="VARCHAR(5000)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="nporshennikov" id="12-12-2023-03">
+        <createTable tableName="car">
+            <column name="serial_number" type="CHAR(4)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="tech_model" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="engine_model" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="engine_serial_number" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="trans_model" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="trans_serial_number" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="drive_axle_model" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="drive_axle_serial_number" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="control_bridge_model" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="control_bridge_serial_number" type="CHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="factory_date_shipment" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="client" type="varchar(300)"/>
+            <column name="consumer" type="varchar(300)"/>
+            <column name="delivery_address" type="varchar(300)"/>
+            <column name="equipment" type="varchar(1000)"/>
+            <column name="company" type="varchar(300)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="nporshennikov" id="add-foreign-key-01">
+        <addForeignKeyConstraint
+                baseColumnNames="client"
+                baseTableName="car"
+                constraintName="fk_constraint_car-client-1"
+                referencedColumnNames="name"
+                referencedTableName="company"
+                onUpdate="CASCADE"/>
+    </changeSet>
+
+    <changeSet author="nporshennikov" id="add-foreign-key-1">
+        <addForeignKeyConstraint
+                baseColumnNames="tech_model"
+                baseTableName="car"
+                constraintName="fk_constraint_car-1"
+                referencedColumnNames="name"
+                referencedTableName="directory"
+                onUpdate="CASCADE"/>
+    </changeSet>
+
+    <changeSet author="nporshennikov" id="add-foreign-key-2">
+        <addForeignKeyConstraint
+                baseColumnNames="engine_model"
+                baseTableName="car"
+                constraintName="fk_constraint_car-2"
+                referencedColumnNames="name"
+                referencedTableName="directory"
+                onUpdate="CASCADE"/>
+    </changeSet>
+
+    <changeSet author="nporshennikov" id="add-foreign-key-3">
+        <addForeignKeyConstraint
+                baseColumnNames="trans_model"
+                baseTableName="car"
+                constraintName="fk_constraint_car-3"
+                referencedColumnNames="name"
+                referencedTableName="directory"
+                onUpdate="CASCADE"/>
+    </changeSet>
+
+    <changeSet author="nporshennikov" id="add-foreign-key-4">
+        <addForeignKeyConstraint
+                baseColumnNames="control_bridge_model"
+                baseTableName="car"
+                constraintName="fk_constraint_car-4"
+                referencedColumnNames="name"
+                referencedTableName="directory"
+                onUpdate="CASCADE"/>
+    </changeSet>
+
+    <changeSet author="nporshennikov" id="add-foreign-key-5">
+        <addForeignKeyConstraint
+                baseColumnNames="drive_axle_model"
+                baseTableName="car"
+                constraintName="fk_constraint_car-5"
+                referencedColumnNames="name"
+                referencedTableName="directory"
+                onUpdate="CASCADE"/>
+    </changeSet>
+
+    <changeSet author="nporshennikov" id="add-foreign-key-6">
+        <addForeignKeyConstraint
+                baseColumnNames="company"
+                baseTableName="car"
+                constraintName="fk_constraint_car-6"
+                referencedColumnNames="name"
+                referencedTableName="company"
+                onDelete="CASCADE"
+                onUpdate="CASCADE"/>
+    </changeSet>
+
+    <changeSet author="nporshennikov" id="12-12-2023-04">
+        <createTable tableName="tech_inspection">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="car_id" type="CHAR(4)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="maintenance_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="operating" type="int2">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_number" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_number_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="company" type="VARCHAR(300)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="nporshennikov" id="add-foreign-key-7">
+        <addForeignKeyConstraint
+                baseColumnNames="type"
+                baseTableName="tech_inspection"
+                constraintName="fk_constraint_to-1"
+                referencedColumnNames="name"
+                referencedTableName="directory"
+                onUpdate="CASCADE"/>
+    </changeSet>
+
+    <changeSet author="nporshennikov" id="add-foreign-key-8">
+        <addForeignKeyConstraint
+                baseColumnNames="company"
+                baseTableName="tech_inspection"
+                constraintName="fk_constraint_to-2"
+                referencedColumnNames="name"
+                referencedTableName="company"
+                onUpdate="CASCADE"/>
+    </changeSet>
+
+    <changeSet author="nporshennikov" id="add-foreign-key-9">
+        <addForeignKeyConstraint
+                baseColumnNames="car_id"
+                baseTableName="tech_inspection"
+                constraintName="fk_constraint_to-3"
+                referencedColumnNames="serial_number"
+                referencedTableName="car"
+                onUpdate="CASCADE"/>
+    </changeSet>
+
+    <changeSet author="nporshennikov" id="12-12-2023-05">
+        <createTable tableName="complaints">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="car_id" type="CHAR(4)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reject_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="operating" type="int2">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reject_node" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reject_description" type="varchar(5000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="recovery_method" type="varchar(300)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="spare_parts_used" type="varchar(300)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="recovery_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipment_downtime" type="int2">
+                <constraints nullable="false"/>
+            </column>
+            <column name="company" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="nporshennikov" id="add-foreign-key-10">
+        <addForeignKeyConstraint
+                baseColumnNames="car_id"
+                baseTableName="complaints"
+                constraintName="fk_constraint_complaints-1"
+                referencedColumnNames="serial_number"
+                referencedTableName="car"
+                onUpdate="CASCADE"/>
+    </changeSet>
+
+    <changeSet author="nporshennikov" id="add-foreign-key-11">
+        <addForeignKeyConstraint
+                baseColumnNames="reject_node"
+                baseTableName="complaints"
+                constraintName="fk_constraint_complaints-2"
+                referencedColumnNames="name"
+                referencedTableName="directory"
+                onUpdate="CASCADE"/>
+    </changeSet>
+
+    <changeSet author="nporshennikov" id="add-foreign-key-12">
+        <addForeignKeyConstraint
+                baseColumnNames="recovery_method"
+                baseTableName="complaints"
+                constraintName="fk_constraint_complaints-3"
+                referencedColumnNames="name"
+                referencedTableName="directory"
+                onUpdate="CASCADE"/>
+    </changeSet>
+
+    <changeSet author="nporshennikov" id="add-foreign-key-13">
+        <addForeignKeyConstraint
+                baseColumnNames="company"
+                baseTableName="complaints"
+                constraintName="fk_constraint_complaints-4"
+                referencedColumnNames="name"
+                referencedTableName="company"
+                onUpdate="CASCADE"/>
+    </changeSet>
+
+    <changeSet author="nporshennikov" id="12-12-2023-06">
+        <createTable tableName="_user">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="login" type="varchar(300)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="company" type="VARCHAR(300)"/>
+            <column name="password" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="nporshennikov" id="12-12-2023-07">
+        <createTable tableName="token">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="expired" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revoked" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="token" type="VARCHAR(200)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="token_type" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="nporshennikov" id="add-foreign-key-14">
+        <addForeignKeyConstraint
+                baseColumnNames="user_id"
+                baseTableName="token"
+                constraintName="fk_constraint_token-1"
+                referencedColumnNames="id"
+                referencedTableName="_user"
+                onDelete="CASCADE"
+                onUpdate="CASCADE"/>
+    </changeSet>
+
+    <changeSet author="nporshennikov" id="add-foreign-key-15">
+        <addForeignKeyConstraint
+                baseColumnNames="company"
+                baseTableName="_user"
+                constraintName="fk_constraint_user-1"
+                referencedColumnNames="name"
+                referencedTableName="company"
+                onDelete="CASCADE"
+                onUpdate="CASCADE"/>
+    </changeSet>
+
+</databaseChangeLog>
