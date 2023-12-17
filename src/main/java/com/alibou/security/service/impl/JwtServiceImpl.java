@@ -1,6 +1,7 @@
 package com.alibou.security.service.impl;
 
 import com.alibou.security.exception.TokenException;
+import com.alibou.security.model.entity.User;
 import com.alibou.security.service.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -10,15 +11,13 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 
 @Service
@@ -62,8 +61,10 @@ public class JwtServiceImpl implements JwtService {
             UserDetails userDetails,
             long expiration
     ) {
-        Set<SimpleGrantedAuthority> authorities = (Set<SimpleGrantedAuthority>) userDetails.getAuthorities();
+        User user = (User) userDetails;
+        Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
         extraClaims.put("role", authorities.stream().toList().get(0).getAuthority());
+        extraClaims.put("company", user.getCompany());
         return Jwts
                 .builder()
                 .setClaims(extraClaims)

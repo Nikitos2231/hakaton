@@ -302,7 +302,7 @@
             <column name="revoked" type="boolean">
                 <constraints nullable="false"/>
             </column>
-            <column name="token" type="VARCHAR(200)">
+            <column name="token" type="VARCHAR(300)">
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="token_type" type="VARCHAR(50)">
