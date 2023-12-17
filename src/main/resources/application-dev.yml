@@ -1,0 +1,11 @@
+spring:
+  data:
+    redis:
+      host: localhost
+      port: 6390
+      repositories:
+        enabled: false
+
+server:
+  port: 16000
+

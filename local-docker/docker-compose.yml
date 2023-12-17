@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  postgres:
+    container_name: postgres-sql
+    image: postgres
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: jwt_security
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5439:5432"
+    restart: unless-stopped
+
+  redis:
+    container_name: redis
+    hostname: redis
+    image: 'redis:6.2.11'
+    ports:
+      - "6390:6379"
+volumes:
+  postgres:
