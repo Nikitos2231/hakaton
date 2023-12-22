@@ -104,6 +104,7 @@ com/alibou/security/rest/dto/request/AuthenticationRequest$AuthenticationRequest
 com/alibou/security/model/entity/TechInspection.class
 com/alibou/security/util/mapper/DirectoryMapperImpl.class
 com/alibou/security/model/entity/Complaints.class
+com/alibou/security/rest/dto/request/DirectoriesNames.class
 com/alibou/security/exception/GenericException.class
 com/alibou/security/model/entity/Token$TokenBuilder.class
 com/alibou/security/model/repo/CarRepository.class

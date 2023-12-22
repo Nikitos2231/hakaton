@@ -7,6 +7,7 @@ import com.alibou.security.model.repo.DirectoryRepository;
 import com.alibou.security.rest.dto.DirectoryDto;
 import com.alibou.security.rest.dto.DirectoryValues;
 import com.alibou.security.rest.dto.request.AddDirectoryRequest;
+import com.alibou.security.rest.dto.request.DirectoriesNames;
 import com.alibou.security.rest.dto.request.DirectoryTypesRequest;
 import com.alibou.security.service.DirectoryService;
 import com.alibou.security.util.mapper.DirectoryMapper;
@@ -57,6 +58,14 @@ public class DirectoryServiceImpl implements DirectoryService {
         }
         directoryRepository.edit(name, directoryMapper.map(request));
         return directoryMapper.mapToDto(request);
+    }
+
+    @Override
+    public List<DirectoryDto> getList(DirectoriesNames request) {
+        return directoryRepository.findByNameIn(request.getDirectories())
+                .stream()
+                .map(directoryMapper::map)
+                .toList();
     }
 
     private Map<DirectoryType, List<String>> parseDirectories(List<Directory> directories) {

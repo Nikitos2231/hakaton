@@ -3,6 +3,7 @@ package com.alibou.security.rest.controller;
 import com.alibou.security.rest.dto.DirectoryDto;
 import com.alibou.security.rest.dto.DirectoryValues;
 import com.alibou.security.rest.dto.request.AddDirectoryRequest;
+import com.alibou.security.rest.dto.request.DirectoriesNames;
 import com.alibou.security.rest.dto.request.DirectoryTypesRequest;
 import com.alibou.security.rest.dto.response.ResponseDto;
 import com.alibou.security.service.DirectoryService;
@@ -10,6 +11,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/directories")
@@ -36,5 +39,11 @@ public class DirectoryController {
     public ResponseDto<DirectoryDto> editDirectory(@RequestBody @Valid AddDirectoryRequest request,
                                                    @PathVariable String name) {
         return ResponseDto.ok(directoryService.edit(request, name));
+    }
+
+    @PostMapping("/list")
+    @PreAuthorize("hasAnyRole('MANAGER', 'CLIENT', 'SERVICE_ORGANISATION')")
+    public ResponseDto<List<DirectoryDto>> getListOfDirectories(@RequestBody @Valid DirectoriesNames request) {
+        return ResponseDto.ok(directoryService.getList(request));
     }
 }

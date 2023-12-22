@@ -20,4 +20,6 @@ public interface DirectoryRepository extends JpaRepository<Directory, String> {
     @Modifying
     @Query("UPDATE Directory d SET d.type = :#{#directory.type}, d.description = :#{#directory.description}, d.name = :#{#directory.name} WHERE d.name = :name")
     void edit(@Param("name") String name, @Param("directory") Directory directory);
+
+    List<Directory> findByNameIn(List<String> names);
 }

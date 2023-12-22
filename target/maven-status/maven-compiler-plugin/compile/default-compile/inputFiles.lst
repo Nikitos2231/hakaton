@@ -87,3 +87,4 @@
 /home/nikita/Документы/hakaton/spring-boot-3-jwt-security/src/main/java/com/alibou/security/rest/dto/TechInspectionDto.java
 /home/nikita/Документы/hakaton/spring-boot-3-jwt-security/src/main/java/com/alibou/security/config/security/SecurityConfiguration.java
 /home/nikita/Документы/hakaton/spring-boot-3-jwt-security/src/main/java/com/alibou/security/rest/controller/AuthenticationController.java
+/home/nikita/Документы/hakaton/spring-boot-3-jwt-security/src/main/java/com/alibou/security/rest/dto/request/DirectoriesNames.java
