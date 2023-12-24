@@ -5,7 +5,6 @@ import com.alibou.security.model.entity.Car;
 import com.alibou.security.model.repo.CarRepository;
 import com.alibou.security.rest.dto.CarDto;
 import com.alibou.security.rest.dto.EntitiesTableResult;
-import com.alibou.security.rest.dto.Page;
 import com.alibou.security.rest.dto.ShortCarDto;
 import com.alibou.security.rest.dto.request.ConditionsRequest;
 import com.alibou.security.rest.dto.request.EditCarRequest;
@@ -18,7 +17,6 @@ import com.alibou.security.util.mapper.CarMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -34,9 +32,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public EntitiesTableResultDto<CarDto> getAll(ConditionsRequest condition) {
-        EntitiesTableResult<Car> cars = carRepository.getAllWithSortAndFilterAndPaginate(condition, entityManager,
-                Pageable.ofSize(condition.getPage().getAmountOfElements())
-                        .withPage(condition.getPage().getPageNumber()));
+        EntitiesTableResult<Car> cars = carRepository.getAllWithSortAndFilterAndPaginate(condition, entityManager);
         return carMapper.map(cars).toBuilder()
                 .fields(ClassUtil.getAllFieldNames(CarDto.class))
                 .build();
@@ -117,7 +113,7 @@ public class CarServiceImpl implements CarService {
     private EntitiesTableResultDto<CarDto> generateEmptyConditionResult() {
         return getAll(ConditionsRequest.builder()
                 .filters(new HashMap<>())
-                .page(new Page())
+                .page(null)
                 .sorting(new HashMap<>())
                 .build());
     }

@@ -25,7 +25,7 @@ public interface CarRepository extends JpaRepository<Car, String>, IBaseConditio
 
     List<Car> findBySerialNumberContains(String serialNumber);
 
-    default EntitiesTableResult<Car> getAllWithSortAndFilterAndPaginate(ConditionsRequest condition, EntityManager entityManager, Pageable pageable) {
+    default EntitiesTableResult<Car> getAllWithSortAndFilterAndPaginate(ConditionsRequest condition, EntityManager entityManager) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Car> query = builder.createQuery(Car.class);
         Root<Car> root = query.from(Car.class);
@@ -40,7 +40,11 @@ public interface CarRepository extends JpaRepository<Car, String>, IBaseConditio
 
         TypedQuery<Car> typedQuery = entityManager.createQuery(query);
 
-        PageableResult pageableResult = paginate(typedQuery, pageable);
+        PageableResult pageableResult = new PageableResult();
+        if (condition.getPage() != null) {
+            pageableResult = paginate(typedQuery, Pageable.ofSize(condition.getPage().getAmountOfElements())
+                    .withPage(condition.getPage().getPageNumber()));
+        }
 
         return new EntitiesTableResult<>(typedQuery.getResultList(), pageableResult.getTotalPages(), pageableResult.getTotalElements());
     }
