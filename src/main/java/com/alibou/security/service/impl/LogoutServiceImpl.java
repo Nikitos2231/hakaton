@@ -1,5 +1,6 @@
 package com.alibou.security.service.impl;
 
+import com.alibou.security.exception.TokenException;
 import com.alibou.security.model.entity.Token;
 import com.alibou.security.model.repo.TokenRepository;
 import com.alibou.security.service.JwtService;
@@ -39,11 +40,18 @@ public class LogoutServiceImpl implements LogoutHandler, LogoutService {
             return;
         }
         jwt = authHeader.substring(7);
-        String login = jwtService.extractUsername(jwt);
-        Token token = hashOperations.get(cacheName, login);
+        Token token;
+        String login;
+        try {
+            login = jwtService.extractUsername(jwt);
+            token = hashOperations.get(cacheName, login);
+        } catch (TokenException e) {
+            SecurityContextHolder.clearContext();
+            return;
+        }
         if (token != null) {
             hashOperations.delete(cacheName, login);
-            tokenRepository.delete(tokenRepository.findByUserID(token.getUserID()));
+            tokenRepository.deleteAll(tokenRepository.findAllByUserID(token.getUserID()));
             SecurityContextHolder.clearContext();
         }
     }
